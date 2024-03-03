@@ -5,9 +5,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-import org.hibernate.type.descriptor.jdbc.UUIDJdbcType;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,29 +22,29 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "username", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(name = "password", nullable = false)
+    @Column(nullable = false)
     private String password;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(name = "phoneNumber", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String phoneNumber;
 
-    @Column(name = "firstName", nullable = false)
+    @Column(nullable = false)
     private String firstName;
 
-    @Column(name = "lastName", nullable = false)
+    @Column(nullable = false)
     private String lastName;
 
-    @Column(name = "itemsDonated")
+    @Column()
     private int itemsDonated;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false, columnDefinition = "VARCHAR(255) DEFAULT 'CLIENT'")
+    @Column(nullable = false, columnDefinition = "VARCHAR(255) DEFAULT 'CLIENT'")
     private UserRole role;
 
     @ManyToMany(cascade = CascadeType.ALL)
