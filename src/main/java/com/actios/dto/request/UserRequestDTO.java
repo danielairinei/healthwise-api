@@ -1,4 +1,4 @@
-package com.actios.dto;
+package com.actios.dto.request;
 
 import com.actios.util.enums.UserRole;
 

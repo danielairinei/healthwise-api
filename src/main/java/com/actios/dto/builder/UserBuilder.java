@@ -1,7 +1,7 @@
 package com.actios.dto.builder;
 
-import com.actios.dto.UserDTO;
-import com.actios.dto.UserRequestDTO;
+import com.actios.dto.response.UserResponseDTO;
+import com.actios.dto.request.UserRequestDTO;
 import com.actios.entity.User;
 
 public class UserBuilder {
@@ -9,8 +9,8 @@ public class UserBuilder {
     private UserBuilder() {
     }
 
-    public static UserDTO toUserDTO(User user) {
-        return new UserDTO(
+    public static UserResponseDTO toUserDTO(User user) {
+        return new UserResponseDTO(
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),

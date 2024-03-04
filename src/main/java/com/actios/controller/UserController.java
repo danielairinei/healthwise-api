@@ -1,10 +1,9 @@
 package com.actios.controller;
 
-import com.actios.dto.UserDTO;
-import com.actios.dto.UserPreferenceDTO;
-import com.actios.dto.UserRequestDTO;
+import com.actios.dto.response.UserResponseDTO;
+import com.actios.dto.request.UserPreferenceDTO;
+import com.actios.dto.request.UserRequestDTO;
 import com.actios.entity.Preference;
-import com.actios.entity.User;
 import com.actios.service.UserService;
 import com.actios.util.Constants;
 import jakarta.validation.Valid;
@@ -25,15 +24,15 @@ public class UserController {
     private UserService userService;
 
     @GetMapping()
-    public ResponseEntity<List<UserDTO>> getUsers() {
-        List<UserDTO> dtos = userService.getUsers();
+    public ResponseEntity<List<UserResponseDTO>> getUsers() {
+        List<UserResponseDTO> dtos = userService.getUsers();
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable("id") UUID id) {
-        UserDTO userDTO = userService.getUserById(id);
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable("id") UUID id) {
+        UserResponseDTO userResponseDTO = userService.getUserById(id);
+        return new ResponseEntity<>(userResponseDTO, HttpStatus.OK);
     }
 
     @PostMapping()
@@ -43,9 +42,9 @@ public class UserController {
     }
 
     @PutMapping()
-    public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserRequestDTO userRequestDTO) {
-        UserDTO userDTO = userService.updateUser(userRequestDTO);
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    public ResponseEntity<UserResponseDTO> updateUser(@Valid @RequestBody UserRequestDTO userRequestDTO) {
+        UserResponseDTO userResponseDTO = userService.updateUser(userRequestDTO);
+        return new ResponseEntity<>(userResponseDTO, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")

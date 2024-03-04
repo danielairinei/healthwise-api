@@ -1,15 +1,14 @@
 package com.actios.service;
 
-import com.actios.dto.UserDTO;
-import com.actios.dto.UserPreferenceDTO;
-import com.actios.dto.UserRequestDTO;
+import com.actios.dto.response.UserResponseDTO;
+import com.actios.dto.request.UserPreferenceDTO;
+import com.actios.dto.request.UserRequestDTO;
 import com.actios.dto.builder.UserBuilder;
 import com.actios.entity.Preference;
 import com.actios.entity.User;
 import com.actios.repository.UserRepository;
 import com.actios.util.ServiceUtils;
 import com.actios.util.exceptions.UserNotFoundException;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -25,14 +24,14 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<UserDTO> getUsers() {
+    public List<UserResponseDTO> getUsers() {
         return userRepository.findAll()
                 .stream()
                 .map(UserBuilder::toUserDTO)
                 .collect(Collectors.toList());
     }
 
-    public UserDTO getUserById(UUID id) {
+    public UserResponseDTO getUserById(UUID id) {
         Optional<User> user = userRepository.findById(id);
 
         if (user.isEmpty()) {
@@ -56,7 +55,7 @@ public class UserService {
         return true;
     }
 
-    public UserDTO updateUser(UserRequestDTO userRequestDTO) {
+    public UserResponseDTO updateUser(UserRequestDTO userRequestDTO) {
         User user = UserBuilder.toUserEntity(userRequestDTO);
         Optional<User> existingUserOptional = userRepository.findById(user.getId());
         if (existingUserOptional.isPresent()) {
@@ -89,6 +88,15 @@ public class UserService {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public User getUserByEmail(String email) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if(userOptional.isPresent()) {
+            return userOptional.get();
+        } else {
+            throw new UserNotFoundException(User.class.getSimpleName() + " with email: " + email);
         }
     }
 }

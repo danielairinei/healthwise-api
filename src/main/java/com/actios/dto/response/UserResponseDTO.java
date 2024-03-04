@@ -1,4 +1,4 @@
-package com.actios.dto;
+package com.actios.dto.response;
 
 import com.actios.entity.Preference;
 import com.actios.util.enums.UserRole;
@@ -6,7 +6,7 @@ import com.actios.util.enums.UserRole;
 import java.util.List;
 import java.util.UUID;
 
-public record UserDTO(
+public record UserResponseDTO(
         UUID id,
         String username,
         String email,
