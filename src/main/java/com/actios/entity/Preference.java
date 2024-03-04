@@ -1,36 +1,33 @@
 package com.actios.entity;
 
 import com.actios.util.enums.PreferenceType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Data
+@Setter
+@Getter
 @EqualsAndHashCode(of = "id")
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class Preference implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "type", nullable = false, unique = true)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, unique = true)
     private PreferenceType type;
 
-    @Column(name = "weight", nullable = false)
+    @Column(nullable = false)
     private int weight;
 
-    @ManyToMany(mappedBy = "preferences")
+    @JsonIgnore
+    @ManyToMany(mappedBy = "preferences", fetch = FetchType.EAGER)
     private List<User> users;
-
-    public Preference(UUID id, PreferenceType type, int weight) {
-        this.id = id;
-        this.type = type;
-        this.weight = weight;
-    }
 }

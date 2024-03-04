@@ -2,9 +2,7 @@ package com.actios.entity;
 
 import com.actios.util.enums.UserRole;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,7 +11,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "app_user")
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(of = "id")
 @RequiredArgsConstructor
 public class User implements Serializable {
@@ -40,22 +39,22 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String lastName;
 
-    @Column()
+    @Column(columnDefinition = "INT DEFAULT 0")
     private int itemsDonated;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "VARCHAR(255) DEFAULT 'CLIENT'")
     private UserRole role;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
-            name = "preference",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "preference_id")
+            name = "user_preference",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "preference_id", referencedColumnName = "id")
     )
-    private List<Preference> preferences;
+    private List<Preference> preferences = new ArrayList<>();
 
-    public User(UUID id,
+    public User(
                 String username,
                 String password,
                 String email,
@@ -63,7 +62,6 @@ public class User implements Serializable {
                 String firstName,
                 String lastName,
                 UserRole role) {
-        this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;

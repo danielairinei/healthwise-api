@@ -1,6 +1,7 @@
 package com.actios.dto.builder;
 
 import com.actios.dto.UserDTO;
+import com.actios.dto.UserRequestDTO;
 import com.actios.entity.User;
 
 public class UserBuilder {
@@ -19,6 +20,18 @@ public class UserBuilder {
                 user.getItemsDonated(),
                 user.getRole(),
                 user.getPreferences()
+        );
+    }
+
+    public static User toUserEntity(UserRequestDTO userRequestDTO) {
+        return new User(
+                userRequestDTO.username(),
+                userRequestDTO.password(),
+                userRequestDTO.email(),
+                userRequestDTO.phoneNumber(),
+                userRequestDTO.firstName(),
+                userRequestDTO.lastName(),
+                userRequestDTO.role()
         );
     }
 }
